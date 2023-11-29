@@ -35,7 +35,7 @@ const Home = (props) => {
             column: column,
             bhajanTitle: bhajanTitle
         })
-        navigate('/bhajan');
+        navigate('/bhajan-pedia/bhajan');
     }
     return (
         <>

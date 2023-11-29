@@ -51,7 +51,7 @@ function App() {
   return (<>
     <BrowserRouter>
       <Routes>
-        <Route exact path='/' element={
+        <Route exact path='/bhajan-pedia' element={
           <Home
             setSelectedBhajan={setSelectedBhajan}
             selectedCategory={selectedCategory}
@@ -61,7 +61,7 @@ function App() {
             searchList = {searchList}
           />
         } />
-        <Route exact path='/bhajan' element={<Bhajan
+        <Route exact path='/bhajan-pedia/bhajan' element={<Bhajan
           setSelectedBhajan={setSelectedBhajan}
           selectedBhajan={selectedBhajan}
           categories={categories}

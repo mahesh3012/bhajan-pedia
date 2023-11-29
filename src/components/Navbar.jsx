@@ -14,7 +14,7 @@ const Navbar = (props) => {
             const display = window.getComputedStyle(menuButton).getPropertyValue('display')
             if(display=='block'){menuContent.style.display = 'none';}
         }
-        navigate('/');
+        navigate('/bhajan-pedia');
     }
     const handleMenuToggle = () => {
         const menuContent = document.getElementById('menuContent');
@@ -35,7 +35,7 @@ const Navbar = (props) => {
             column: column,
             bhajanTitle: bhajanTitle
         })
-        navigate('/bhajan');
+        navigate('/bhajan-pedia/bhajan');
     }
     const search = (query) => {
         if(query.length === 0){
