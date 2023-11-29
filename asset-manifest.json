@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/bhajan-pedia/static/css/main.70e066d9.css",
+    "main.js": "/bhajan-pedia/static/js/main.bf8509ce.js",
+    "static/js/787.f1b20f7f.chunk.js": "/bhajan-pedia/static/js/787.f1b20f7f.chunk.js",
+    "index.html": "/bhajan-pedia/index.html",
+    "main.70e066d9.css.map": "/bhajan-pedia/static/css/main.70e066d9.css.map",
+    "main.bf8509ce.js.map": "/bhajan-pedia/static/js/main.bf8509ce.js.map",
+    "787.f1b20f7f.chunk.js.map": "/bhajan-pedia/static/js/787.f1b20f7f.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.70e066d9.css",
+    "static/js/main.bf8509ce.js"
+  ]
+}
