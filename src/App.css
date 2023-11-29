@@ -36,3 +36,150 @@
     transform: rotate(360deg);
   }
 }
+
+
+*{
+  box-sizing: border-box;
+}
+.body{
+  display: flex;
+  flex-direction: row;
+  width:100vw;
+  height: 100vh;
+  overflow-y: hidden;
+}
+
+.navbar-container{
+  width: 20%;
+  min-height: 100vh;
+  height: 100%;
+  background-color: burlywood;
+  max-width: 310px;
+  min-width: 220px;
+  padding: 10px;
+  overflow-y: auto;
+}
+.logo{
+  text-align: center;
+}
+.content-container{
+  flex-grow: 1;
+  padding: 50px;
+  padding-top: 10px;
+  overflow-y: auto;
+}
+#menuContent{
+  display: block;
+}
+
+#menuButton{
+  display: none;
+}
+.categoryList{
+  width:100%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 5px;
+}
+.categoryName{
+  min-height:40px;
+  width: 100%;
+  background-color:brown;
+  color:white;
+  padding: 5px;
+  text-align: center;
+  border-bottom: 1px solid black;
+  cursor: pointer;
+  font-size: 1rem;
+}
+.categoryName:hover{
+  color:brown;
+  background-color: white;
+}
+.bhajanList{
+  width:100%;
+  max-width: max-content;
+}
+.bhajanName{
+  min-height:40px;
+  background-color:brown;
+  color:white;
+  padding: 5px;
+  text-align: center;
+  border-bottom: 1px solid black;
+  cursor: pointer
+}
+.bhajanName:hover{
+  color:brown;
+  background-color: white;
+}
+#searchContainer{
+  position: relative;
+}
+#searchInput{
+  height: 40px;
+  width: 100%;
+}
+#searchResultList{
+  width: 100%;
+  position: absolute;
+  z-index:30;
+  max-height: 60vh;
+  overflow-y: auto;
+  background-color: white;
+}
+
+.searchResult{
+  cursor:pointer;
+  padding:3px 5px;
+  border-bottom: 0.5px solid grey;
+}
+
+.searchResult:hover{
+  background-color: grey;
+}
+@media (max-width:768px){
+  .body{
+    position: relative;
+  }
+  .content-container{
+    padding-left: 50px;
+    padding-top: 10px;
+    font-size: 1.25rem;
+  }
+  #menuButton{
+    display:block;
+    width:30px;
+    height: 30px;
+    font-size: 20px;
+    background-color: brown;
+    color:white;
+  }
+  #menuContent{
+    display: none;
+  }
+  .navbar-container{
+    z-index: 20;
+    min-height: 100vh;
+    height: 100%;
+    background-color: burlywood;
+    padding: 3px;
+    position: absolute;
+    overflow-y: auto;
+    width: unset;
+    max-width: unset;
+    min-width: unset;
+  }
+  .categoryName{
+    font-size: 1.5rem;
+  }
+  .bhajanName{
+    font-size: 1.25rem;
+  }
+  #searchInput{
+    font-size: 1.25rem;
+  }
+  .searchResult{
+    font-size: 1.25rem
+  }
+}
