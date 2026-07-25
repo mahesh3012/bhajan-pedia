@@ -21,3 +21,9 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# AI tooling & workflow docs
+/.agents
+/.claude
+/skills-lock.json
+/docs/superpowers
