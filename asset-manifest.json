@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/bhajan-pedia/static/css/main.762d98f1.css",
-    "main.js": "/bhajan-pedia/static/js/main.77a407a9.js",
-    "static/js/787.f1b20f7f.chunk.js": "/bhajan-pedia/static/js/787.f1b20f7f.chunk.js",
+    "main.css": "/bhajan-pedia/static/css/main.654c8793.css",
+    "main.js": "/bhajan-pedia/static/js/main.cbdc6c9a.js",
+    "static/js/787.9046dcfe.chunk.js": "/bhajan-pedia/static/js/787.9046dcfe.chunk.js",
     "index.html": "/bhajan-pedia/index.html",
-    "main.762d98f1.css.map": "/bhajan-pedia/static/css/main.762d98f1.css.map",
-    "main.77a407a9.js.map": "/bhajan-pedia/static/js/main.77a407a9.js.map",
-    "787.f1b20f7f.chunk.js.map": "/bhajan-pedia/static/js/787.f1b20f7f.chunk.js.map"
+    "main.654c8793.css.map": "/bhajan-pedia/static/css/main.654c8793.css.map",
+    "main.cbdc6c9a.js.map": "/bhajan-pedia/static/js/main.cbdc6c9a.js.map",
+    "787.9046dcfe.chunk.js.map": "/bhajan-pedia/static/js/787.9046dcfe.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.762d98f1.css",
-    "static/js/main.77a407a9.js"
+    "static/css/main.654c8793.css",
+    "static/js/main.cbdc6c9a.js"
   ]
 }
