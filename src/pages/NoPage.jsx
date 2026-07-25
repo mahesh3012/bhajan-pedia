@@ -11,7 +11,7 @@ const NoPage = () => (
       This page isn’t in the songbook — but the lamp is still lit at the
       beginning.
     </p>
-    <Link className="notfound__home" to="/bhajan-pedia">
+    <Link className="notfound__home" to="/">
       अनुक्रमणिका पर लौटें · Back to the index
     </Link>
   </div>

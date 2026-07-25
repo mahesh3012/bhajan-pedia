@@ -8,6 +8,25 @@
   min-height: 100vh;
 }
 
+/* these are <Link>s (anchors) — strip the default underline/color */
+.brand,
+.deity,
+.index__item,
+.search__result {
+  text-decoration: none;
+  color: inherit;
+}
+
+.state__link {
+  display: inline-block;
+  margin-top: 16px;
+  color: var(--kumkum);
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 2px;
+}
+
 /* ---------- the brass rail ---------- */
 .rail {
   flex: 0 0 var(--rail-w);

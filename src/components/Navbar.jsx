@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Diya, Flame } from './Diya';
-import { deityLabel, splitBhajan } from '../utils/text';
+import { Notice } from './Notice';
+import { useCatalog } from '../context/CatalogProvider';
+import { bhajanRefFor } from '../utils/catalog';
+import { splitBhajan } from '../utils/text';
 import '../App.css';
 
-const Navbar = (props) => {
-  const navigate = useNavigate();
-  const searchList = props.searchList;
-  const activeCategory = props.activeCategory;
-  const [searchResultList, setSearchResultList] = useState([]);
+const Navbar = () => {
+  const { deities, searchIndex } = useCatalog();
+  const { deitySlug } = useParams();
+  const [results, setResults] = useState([]);
 
   // On mobile the rail is a slide-over; close it after a choice.
   const closeMobileMenu = () => {
@@ -22,41 +24,28 @@ const Navbar = (props) => {
     }
   };
 
-  const handleCategorySelect = (category) => {
-    props.setSelectedCategory(category);
-    closeMobileMenu();
-    navigate('/bhajan-pedia');
-  };
-
   const handleMenuToggle = () => {
     const menuContent = document.getElementById('menuContent');
     menuContent.style.display =
       menuContent.style.display === 'block' ? 'none' : 'block';
   };
 
-  const changeSelectedBhajan = (e) => {
-    const el = e.currentTarget;
-    props.setSelectedBhajan({
-      row: el.getAttribute('data-row'),
-      column: el.getAttribute('data-column'),
-      bhajanTitle: el.getAttribute('data-title'),
-    });
-    setSearchResultList([]);
-    closeMobileMenu();
-    navigate('/bhajan-pedia/bhajan');
-  };
-
   const search = (query) => {
     const q = query.trim().toLowerCase();
     if (!q) {
-      setSearchResultList([]);
+      setResults([]);
       return;
     }
-    setSearchResultList(
-      searchList.filter((item) =>
-        item.bhajanTitle.toLowerCase().includes(q)
+    setResults(
+      searchIndex.filter((item) =>
+        item.rawTitle.toLowerCase().includes(q)
       )
     );
+  };
+
+  const onLinkNav = () => {
+    setResults([]);
+    closeMobileMenu();
   };
 
   return (
@@ -71,13 +60,13 @@ const Navbar = (props) => {
       </button>
 
       <div id="menuContent" className="rail__content">
-        <div className="brand">
+        <Link className="brand" to="/" onClick={onLinkNav}>
           <Diya className="brand__lamp" />
           <div>
             <h1 className="brand__name">भजनपीडिया</h1>
             <span className="brand__sub">Bhajanpedia</span>
           </div>
-        </div>
+        </Link>
 
         <div className="search" id="searchContainer">
           <input
@@ -89,19 +78,17 @@ const Navbar = (props) => {
             onChange={(e) => search(e.target.value)}
           />
           <div id="searchResultList" className="search__results">
-            {searchResultList.map((bhajan) => {
-              const { deva } = splitBhajan(bhajan.bhajanTitle);
+            {results.map((r) => {
+              const { deva } = splitBhajan(r.rawTitle);
               return (
-                <button
-                  key={bhajan.id}
+                <Link
+                  key={r.id}
                   className="search__result"
-                  data-column={bhajan.column}
-                  data-row={bhajan.row}
-                  data-title={bhajan.bhajanTitle}
-                  onClick={changeSelectedBhajan}
+                  to={`/${r.deitySlug}/${bhajanRefFor(r)}`}
+                  onClick={onLinkNav}
                 >
                   {deva}
-                </button>
+                </Link>
               );
             })}
           </div>
@@ -109,24 +96,29 @@ const Navbar = (props) => {
 
         <div className="rail__label">देवता · Deities</div>
         <div className="deity-list">
-          {props.categories.map((category, i) => {
-            const { deva, roman } = deityLabel(category);
-            const isActive = category === activeCategory;
+          {deities.map((d) => {
+            const isActive = d.slug === deitySlug;
             return (
-              <button
-                key={category + i}
+              <Link
+                key={d.slug}
                 className={`deity${isActive ? ' is-active' : ''}`}
-                onClick={() => handleCategorySelect(category)}
+                to={`/${d.slug}`}
+                onClick={onLinkNav}
                 aria-current={isActive ? 'true' : undefined}
               >
                 <Flame className="deity__mark" />
                 <span className="deity__text">
-                  <span className="deity__deva">{deva}</span>
-                  {roman ? <span className="deity__roman">{roman}</span> : null}
+                  <span className="deity__deva">{d.deva}</span>
+                  {d.roman ? (
+                    <span className="deity__roman">{d.roman}</span>
+                  ) : null}
                 </span>
-              </button>
+              </Link>
             );
           })}
+          {deities.length === 0 ? (
+            <Notice deva="…" note="Loading deities" />
+          ) : null}
         </div>
       </div>
     </nav>
