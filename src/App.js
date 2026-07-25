@@ -33,7 +33,7 @@ function App() {
         for (let i = 2; i < res.data.length; i++) {
           const rowData = res.data[i];
           for (let j = 0; j < rowData.length; j++) {
-            if (rowData[j] && rowData[j] != '') {
+            if (rowData[j] && rowData[j] !== '') {
               let bhajan = {
                 id:`row${i-1}&col${j}`,
                 row: i - 1,
@@ -47,6 +47,7 @@ function App() {
         setSearchList(tempSearchList);
       },
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (<>
     <BrowserRouter>

@@ -1,13 +1,78 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* Bhajanpedia — design tokens & base.
+   "Night mandali": a dark indigo room lit by brass, where a single ivory
+   pothi (manuscript) page glows. Devanagari is the hero. */
+
+:root {
+  /* color */
+  --raat: #17131f; /* night-of-the-aarti indigo */
+  --raat-panel: #1e1830; /* rail, lifted from the room */
+  --raat-elev: #271f3c; /* hover wells, search dropdown */
+  --pothi: #f3e7ce; /* aged songbook page */
+  --pothi-edge: #e6d6b2; /* page edge / inner shadow */
+  --peetal: #cba24a; /* temple brass */
+  --peetal-bright: #e6c574; /* lit brass, focus rings */
+  --kumkum: #be3a2b; /* tilak red — the one hot accent */
+  --genda: #e08a34; /* marigold glow — lit states */
+  --syaahi: #2b2317; /* ink on paper */
+  --syaahi-soft: #7a6a4d; /* faded ink */
+  --cream: #efe6d2; /* text on the dark room */
+  --cream-soft: #b3a488; /* muted text on dark */
+  --hairline: rgba(203, 162, 74, 0.22); /* brass hairline on dark */
+
+  /* type */
+  --font-display: 'Yatra One', Georgia, serif;
+  --font-read: 'Tiro Devanagari Sanskrit', Georgia, 'Times New Roman', serif;
+  --font-ui: 'Mukta', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* form */
+  --radius: 12px;
+  --radius-sm: 7px;
+  --rail-w: 300px;
+  --shadow-page: 0 30px 70px -26px rgba(0, 0, 0, 0.72);
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--raat);
+  /* faint diya glow from the top, so the room has depth */
+  background-image: radial-gradient(
+    120% 90% at 50% -10%,
+    rgba(224, 138, 52, 0.1),
+    rgba(23, 19, 31, 0) 55%
+  );
+  background-attachment: fixed;
+  color: var(--cream);
+  font-family: var(--font-ui);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+input {
+  font: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--peetal-bright);
+  outline-offset: 2px;
+  border-radius: 4px;
 }

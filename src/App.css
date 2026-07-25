@@ -1,185 +1,594 @@
-.App {
-  text-align: center;
+/* Bhajanpedia — components.
+   Tokens live in index.css. Class names are namespaced (rail__, index__,
+   pothi__) so element and type selectors never cancel each other out. */
+
+/* ---------- shell ---------- */
+.app-shell {
+  display: flex;
+  min-height: 100vh;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* ---------- the brass rail ---------- */
+.rail {
+  flex: 0 0 var(--rail-w);
+  width: var(--rail-w);
+  align-self: stretch;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--raat-panel);
+  border-right: 1px solid var(--hairline);
+  padding: 22px 18px 32px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.rail__toggle {
+  display: none;
 }
 
-.App-header {
-  background-color: #282c34;
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 4px 6px 18px;
+  border-bottom: 1px solid var(--hairline);
+  margin-bottom: 16px;
+}
+
+.brand__lamp {
+  flex: 0 0 auto;
+  width: 30px;
+  height: 30px;
+  filter: drop-shadow(0 0 7px rgba(224, 138, 52, 0.45));
+}
+
+.brand__name {
+  font-family: var(--font-display);
+  font-size: 1.55rem;
+  line-height: 1;
+  color: var(--peetal-bright);
+  margin: 0;
+  font-weight: 400;
+}
+
+.brand__sub {
+  display: block;
+  font-size: 0.66rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--cream-soft);
+  margin-top: 4px;
+}
+
+/* ---------- search ---------- */
+.search {
+  position: relative;
+  margin-bottom: 18px;
+}
+
+.search__input {
+  width: 100%;
+  height: 42px;
+  padding: 0 14px;
+  color: var(--cream);
+  background: var(--raat);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-sm);
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.search__input::placeholder {
+  color: var(--cream-soft);
+  opacity: 0.8;
+}
+
+.search__input:focus {
+  outline: none;
+  border-color: var(--peetal);
+  box-shadow: 0 0 0 3px rgba(203, 162, 74, 0.16);
+}
+
+.search__results {
+  position: absolute;
+  z-index: 30;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  max-height: 58vh;
+  overflow-y: auto;
+  background: var(--raat-elev);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 20px 40px -18px rgba(0, 0, 0, 0.7);
+}
+
+.search__results:empty {
+  display: none;
+}
+
+.search__result {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 9px 13px;
+  font-family: var(--font-read);
+  color: var(--cream);
+  border-bottom: 1px solid rgba(203, 162, 74, 0.12);
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.search__result:last-child {
+  border-bottom: none;
+}
+
+.search__result:hover,
+.search__result:focus-visible {
+  background: rgba(224, 138, 52, 0.12);
+  color: var(--genda);
+}
+
+/* ---------- deity list ---------- */
+.rail__label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  /* no tracking: this label contains Devanagari, which must not be spread */
+  letter-spacing: 0;
+  text-transform: uppercase;
+  color: var(--cream-soft);
+  padding: 2px 6px 10px;
+}
+
+.deity-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.deity {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  text-align: left;
+  padding: 10px 8px 10px 6px;
+  border-bottom: 1px solid rgba(203, 162, 74, 0.1);
+  border-left: 2px solid transparent;
+  transition: background 0.16s ease, border-color 0.16s ease,
+    padding-left 0.16s ease;
+}
+
+.deity:hover {
+  background: rgba(224, 138, 52, 0.09);
+  padding-left: 12px;
+}
+
+.deity.is-active {
+  background: linear-gradient(
+    90deg,
+    rgba(190, 58, 43, 0.16),
+    rgba(190, 58, 43, 0)
+  );
+  border-left-color: var(--kumkum);
+}
+
+.deity__mark {
+  flex: 0 0 auto;
+  width: 15px;
+  height: 15px;
+  color: var(--cream-soft);
+  opacity: 0.5;
+  transition: opacity 0.16s ease, color 0.16s ease;
+}
+
+.deity:hover .deity__mark {
+  color: var(--genda);
+  opacity: 0.9;
+}
+
+.deity.is-active .deity__mark {
+  color: var(--genda);
+  opacity: 1;
+  filter: drop-shadow(0 0 5px rgba(224, 138, 52, 0.7));
+}
+
+.deity__text {
+  min-width: 0;
+}
+
+.deity__deva {
+  display: block;
+  font-family: var(--font-read);
+  font-size: 1.08rem;
+  line-height: 1.25;
+  color: var(--cream);
+}
+
+.deity.is-active .deity__deva {
+  color: var(--peetal-bright);
+}
+
+.deity__roman {
+  display: block;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  color: var(--cream-soft);
+  margin-top: 1px;
+}
+
+/* ---------- stage (content area) ---------- */
+.stage {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 46px clamp(20px, 5vw, 72px) 72px;
+}
+
+.stage__inner {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+/* ---------- deity header on home ---------- */
+.deity-head {
+  margin-bottom: 30px;
+}
+
+.deity-head__name {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2.3rem, 6vw, 3.5rem);
+  line-height: 1.05;
+  color: var(--peetal-bright);
+  margin: 0;
+}
+
+.deity-head__epithet {
+  font-family: var(--font-read);
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--genda);
+  margin-top: 6px;
+}
+
+.deity-head__roman {
+  font-size: 0.72rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--cream-soft);
+  margin-top: 12px;
+}
+
+.deity-head__rule {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 18px;
+  color: var(--peetal);
+}
+
+.deity-head__rule::before,
+.deity-head__rule::after {
+  content: '';
+  height: 1px;
+  background: var(--hairline);
+}
+
+.deity-head__rule::before {
+  width: 34px;
+}
+
+.deity-head__rule::after {
+  flex: 1;
+}
+
+.deity-head__lamp {
+  width: 17px;
+  height: 17px;
+  flex: 0 0 auto;
+}
+
+/* ---------- index of bhajans (home) ---------- */
+.index {
+  display: flex;
+  flex-direction: column;
+}
+
+.index__item {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  width: 100%;
+  text-align: left;
+  padding: 15px 8px 15px 4px;
+  border-bottom: 1px solid var(--hairline);
+  transition: background 0.15s ease, padding-left 0.15s ease;
+}
+
+.index__item:hover {
+  background: rgba(224, 138, 52, 0.07);
+  padding-left: 12px;
+}
+
+.index__ord {
+  flex: 0 0 auto;
+  width: 2.1em;
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--peetal);
+  opacity: 0.7;
+  padding-top: 0.35em;
+}
+
+.index__text {
+  min-width: 0;
+}
+
+.index__deva {
+  display: block;
+  font-family: var(--font-read);
+  font-size: 1.28rem;
+  line-height: 1.4;
+  color: var(--cream);
+}
+
+.index__item:hover .index__deva {
+  color: var(--genda);
+}
+
+.index__roman {
+  display: block;
+  font-size: 0.82rem;
+  letter-spacing: 0.05em;
+  color: var(--cream-soft);
+  margin-top: 3px;
+}
+
+/* ---------- states ---------- */
+.state {
+  padding: 60px 4px;
+  max-width: 40ch;
+}
+
+.state__deva {
+  font-family: var(--font-read);
+  font-size: 1.35rem;
+  color: var(--cream);
+}
+
+.state__note {
+  color: var(--cream-soft);
+  margin-top: 8px;
+}
+
+/* ---------- the pothi (reading page — the signature) ---------- */
+.pothi {
+  position: relative;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 44px 44px 56px 66px;
+  background: var(--pothi);
+  color: var(--syaahi);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-page);
+  /* subtly aged paper: warm grain toward the edges */
+  background-image: radial-gradient(
+    130% 100% at 50% 0%,
+    rgba(255, 255, 255, 0.5),
+    rgba(230, 214, 178, 0) 60%
+  );
+}
+
+/* the authentic red ruled margin of a bhajan book */
+.pothi::before {
+  content: '';
+  position: absolute;
+  top: 18px;
+  bottom: 18px;
+  left: 46px;
+  width: 2px;
+  background: var(--kumkum);
+  opacity: 0.55;
+}
+
+.pothi__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+  color: var(--kumkum);
+  background: none;
+  margin-bottom: 22px;
+  transition: gap 0.15s ease;
+}
+
+.pothi__back:hover {
+  gap: 11px;
+}
+
+.pothi__eyebrow {
+  /* a manuscript kicker in Devanagari — softly set, never tracked */
+  font-family: var(--font-read);
+  font-size: 0.92rem;
+  color: var(--syaahi-soft);
+}
+
+.pothi__title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.7rem, 4.6vw, 2.5rem);
+  line-height: 1.25;
+  color: var(--syaahi);
+  margin: 8px 0 0;
+}
+
+.pothi__roman {
+  font-family: var(--font-read);
+  font-style: italic;
+  font-size: 1.02rem;
+  color: var(--syaahi-soft);
+  margin-top: 8px;
+}
+
+.pothi__rule {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 22px 0 26px;
+  color: var(--peetal);
+}
+
+.pothi__rule::before,
+.pothi__rule::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(43, 35, 23, 0.16);
+}
+
+.pothi__lamp {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 auto;
+}
+
+.pothi__lyrics {
+  font-family: var(--font-read);
+  font-size: 1.18rem;
+  line-height: 1.95;
+  color: var(--syaahi);
+}
+
+.pothi__lyrics br + br {
+  display: block;
+  content: '';
+  margin-top: 0.6em;
+}
+
+.pothi__loading {
+  font-family: var(--font-read);
+  font-size: 1.1rem;
+  color: var(--syaahi-soft);
+}
+
+/* ---------- 404 ---------- */
+.notfound {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-
-*{
-  box-sizing: border-box;
-}
-.body{
-  display: flex;
-  flex-direction: row;
-  width:100vw;
-  height: 100vh;
-  overflow-y: hidden;
-}
-
-.navbar-container{
-  width: 20%;
-  min-height: 100vh;
-  height: 100%;
-  background-color: burlywood;
-  max-width: 310px;
-  min-width: 220px;
-  padding: 10px;
-  overflow-y: auto;
-}
-.logo{
   text-align: center;
-}
-.content-container{
-  flex-grow: 1;
-  padding: 50px;
-  padding-top: 10px;
-  overflow-y: auto;
-}
-#menuContent{
-  display: block;
+  padding: 40px;
+  gap: 8px;
 }
 
-#menuButton{
-  display: none;
-}
-.categoryList{
-  width:100%;
-  display: flex;
-  flex-direction: column;
-  margin-top: 5px;
-}
-.categoryName{
-  min-height:40px;
-  width: 100%;
-  background-color:brown;
-  color:white;
-  padding: 5px;
-  text-align: center;
-  border-bottom: 1px solid black;
-  cursor: pointer;
-  font-size: 1rem;
-}
-.categoryName:hover{
-  color:brown;
-  background-color: white;
-}
-.bhajanList{
-  width:100%;
-  max-width: max-content;
-}
-.bhajanName{
-  min-height:40px;
-  background-color:brown;
-  color:white;
-  padding: 5px;
-  text-align: center;
-  border-bottom: 1px solid black;
-  cursor: pointer
-}
-.bhajanName:hover{
-  color:brown;
-  background-color: white;
-}
-#searchContainer{
-  position: relative;
-}
-#searchInput{
-  height: 40px;
-  width: 100%;
-}
-#searchResultList{
-  width: 100%;
-  position: absolute;
-  z-index:30;
-  max-height: 60vh;
-  overflow-y: auto;
-  background-color: white;
+.notfound__lamp {
+  width: 44px;
+  height: 44px;
+  margin-bottom: 8px;
+  filter: drop-shadow(0 0 12px rgba(224, 138, 52, 0.5));
 }
 
-.searchResult{
-  cursor:pointer;
-  padding:3px 5px;
-  border-bottom: 0.5px solid grey;
+.notfound__deva {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  color: var(--peetal-bright);
 }
 
-.searchResult:hover{
-  background-color: grey;
+.notfound__note {
+  color: var(--cream-soft);
+  max-width: 34ch;
 }
-@media (max-width:768px){
-  .body{
-    position: relative;
+
+.notfound__home {
+  margin-top: 14px;
+  color: var(--kumkum);
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 2px;
+}
+
+/* ---------- motion ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .stage__inner {
+    animation: rise 0.5s ease both;
   }
-  .content-container{
-    padding-left: 50px;
-    padding-top: 10px;
-    font-size: 1.25rem;
+  .deity.is-active .deity__mark {
+    animation: flicker 3.6s ease-in-out infinite;
   }
-  #menuButton{
-    display:block;
-    width:30px;
-    height: 30px;
-    font-size: 20px;
-    background-color: brown;
-    color:white;
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(9px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
   }
-  #menuContent{
+  @keyframes flicker {
+    0%,
+    100% {
+      opacity: 0.85;
+    }
+    50% {
+      opacity: 1;
+      filter: drop-shadow(0 0 7px rgba(224, 138, 52, 0.9));
+    }
+  }
+}
+
+/* ---------- responsive ---------- */
+@media (max-width: 780px) {
+  /* the rail wrapper generates no box on mobile; only the toggle button and
+     the slide-over menu below position themselves, so the stage gets full width */
+  .rail {
+    display: contents;
+  }
+
+  .rail__toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    z-index: 45;
+    top: 14px;
+    left: 14px;
+    width: 44px;
+    height: 44px;
+    color: var(--raat);
+    background: var(--peetal);
+    border-radius: 10px;
+    font-size: 1.15rem;
+    box-shadow: 0 6px 18px -6px rgba(0, 0, 0, 0.7);
+  }
+
+  /* #menuContent is the slide-over panel; JS flips display:none <-> block */
+  #menuContent {
     display: none;
-  }
-  .navbar-container{
-    z-index: 20;
-    min-height: 100vh;
-    height: 100%;
-    background-color: burlywood;
-    padding: 3px;
-    position: absolute;
+    position: fixed;
+    z-index: 40;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: min(84vw, 320px);
+    padding: 66px 18px 32px;
+    background: var(--raat-panel);
+    border-right: 1px solid var(--hairline);
     overflow-y: auto;
-    width: unset;
-    max-width: unset;
-    min-width: unset;
+    box-shadow: 24px 0 60px -20px rgba(0, 0, 0, 0.8);
   }
-  .categoryName{
-    font-size: 1.5rem;
+
+  .stage {
+    padding: 74px 18px 60px;
   }
-  .bhajanName{
-    font-size: 1.25rem;
+
+  .pothi {
+    padding: 34px 22px 44px 46px;
   }
-  #searchInput{
-    font-size: 1.25rem;
-  }
-  .searchResult{
-    font-size: 1.25rem
+
+  .pothi::before {
+    left: 28px;
   }
 }

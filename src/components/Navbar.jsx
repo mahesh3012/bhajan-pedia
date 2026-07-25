@@ -1,83 +1,136 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Diya, Flame } from './Diya';
+import { deityLabel, splitBhajan } from '../utils/text';
 import '../App.css';
-const Navbar = (props) => {
-    const navigate = useNavigate();
-    const searchList = props.searchList;
-    const [searchResultList,setSearchResultList] = useState([]);
-    const handleCategorySelect = (category) => {
-        props.setSelectedCategory(category);
-        console.log("hi")
-        const menuContent = document.getElementById('menuContent');
-        const menuButton = document.getElementById('menuButton');
-        if(menuButton){
-            const display = window.getComputedStyle(menuButton).getPropertyValue('display')
-            if(display=='block'){menuContent.style.display = 'none';}
-        }
-        navigate('/bhajan-pedia');
-    }
-    const handleMenuToggle = () => {
-        const menuContent = document.getElementById('menuContent');
-        const currentDisplay = menuContent.style.display;
-        if(currentDisplay == 'block'){
-            menuContent.style.display = 'none';
-        }
-        else if(currentDisplay == 'none' || currentDisplay == ''){
-            menuContent.style.display = 'block';
-        }
-    }
-    const changeSelectedBhajan = (e) => {
-        const column = e.currentTarget.getAttribute('column');
-        const row = e.currentTarget.getAttribute('row');
-        const bhajanTitle = e.currentTarget.getAttribute('bhajanTitle');
-        props.setSelectedBhajan({
-            row: row,
-            column: column,
-            bhajanTitle: bhajanTitle
-        })
-        navigate('/bhajan-pedia/bhajan');
-    }
-    const search = (query) => {
-        if(query.length === 0){
-            setSearchResultList([]);
-        }
-        if(query.length > 0){
-            let tempResult = searchList.filter(item => item.bhajanTitle.toLowerCase().includes(query.toLowerCase()));
-            setSearchResultList(tempResult);
-        }
-    }
-    return (
-        <>
-            <div className="navbar-container">
-                <button id="menuButton" onClick={handleMenuToggle}>&gt;</button>
-                <div id="menuContent">
-                    <h1 className='logo'>Bhajan-pedia</h1>
-                    <div id='searchContainer'>
-                        <input type='text' placeholder='Search by Bhajan Title' onChange={(e)=>search(e.target.value)} id="searchInput"/>
-                        <div id="searchResultList">
-                            {
-                            searchResultList.map((bhajan)=>(
-                                <div key={bhajan.id} 
-                                column={bhajan.column} 
-                                row={bhajan.row} 
-                                bhajanTitle={bhajan.bhajanTitle}
-                                onClick={(e) => changeSelectedBhajan(e)}
-                                className='searchResult'
-                                >{bhajan.bhajanTitle}</div>
-                            ))}
-                        </div>
-                    </div>
-                    <div className='categoryList'>
-                        {
-                            props.categories.map((category) => (
-                                <div onClick={() => handleCategorySelect(category)} className='categoryName'>{category}</div>
-                            ))
-                        }
-                    </div>
-                </div>
-            </div>
-        </>
-    )
-}
 
-export default Navbar
+const Navbar = (props) => {
+  const navigate = useNavigate();
+  const searchList = props.searchList;
+  const activeCategory = props.activeCategory;
+  const [searchResultList, setSearchResultList] = useState([]);
+
+  // On mobile the rail is a slide-over; close it after a choice.
+  const closeMobileMenu = () => {
+    const menuContent = document.getElementById('menuContent');
+    const menuButton = document.getElementById('menuButton');
+    if (menuButton && menuContent) {
+      const display = window
+        .getComputedStyle(menuButton)
+        .getPropertyValue('display');
+      if (display !== 'none') menuContent.style.display = 'none';
+    }
+  };
+
+  const handleCategorySelect = (category) => {
+    props.setSelectedCategory(category);
+    closeMobileMenu();
+    navigate('/bhajan-pedia');
+  };
+
+  const handleMenuToggle = () => {
+    const menuContent = document.getElementById('menuContent');
+    menuContent.style.display =
+      menuContent.style.display === 'block' ? 'none' : 'block';
+  };
+
+  const changeSelectedBhajan = (e) => {
+    const el = e.currentTarget;
+    props.setSelectedBhajan({
+      row: el.getAttribute('data-row'),
+      column: el.getAttribute('data-column'),
+      bhajanTitle: el.getAttribute('data-title'),
+    });
+    setSearchResultList([]);
+    closeMobileMenu();
+    navigate('/bhajan-pedia/bhajan');
+  };
+
+  const search = (query) => {
+    const q = query.trim().toLowerCase();
+    if (!q) {
+      setSearchResultList([]);
+      return;
+    }
+    setSearchResultList(
+      searchList.filter((item) =>
+        item.bhajanTitle.toLowerCase().includes(q)
+      )
+    );
+  };
+
+  return (
+    <nav className="rail">
+      <button
+        id="menuButton"
+        className="rail__toggle"
+        onClick={handleMenuToggle}
+        aria-label="Open deities and search"
+      >
+        ☰
+      </button>
+
+      <div id="menuContent" className="rail__content">
+        <div className="brand">
+          <Diya className="brand__lamp" />
+          <div>
+            <h1 className="brand__name">भजनपीडिया</h1>
+            <span className="brand__sub">Bhajanpedia</span>
+          </div>
+        </div>
+
+        <div className="search" id="searchContainer">
+          <input
+            type="text"
+            id="searchInput"
+            className="search__input"
+            placeholder="किसी भजन का नाम खोजें · Search"
+            aria-label="Search bhajans by title"
+            onChange={(e) => search(e.target.value)}
+          />
+          <div id="searchResultList" className="search__results">
+            {searchResultList.map((bhajan) => {
+              const { deva } = splitBhajan(bhajan.bhajanTitle);
+              return (
+                <button
+                  key={bhajan.id}
+                  className="search__result"
+                  data-column={bhajan.column}
+                  data-row={bhajan.row}
+                  data-title={bhajan.bhajanTitle}
+                  onClick={changeSelectedBhajan}
+                >
+                  {deva}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="rail__label">देवता · Deities</div>
+        <div className="deity-list">
+          {props.categories.map((category, i) => {
+            const { deva, roman } = deityLabel(category);
+            const isActive = category === activeCategory;
+            return (
+              <button
+                key={category + i}
+                className={`deity${isActive ? ' is-active' : ''}`}
+                onClick={() => handleCategorySelect(category)}
+                aria-current={isActive ? 'true' : undefined}
+              >
+                <Flame className="deity__mark" />
+                <span className="deity__text">
+                  <span className="deity__deva">{deva}</span>
+                  {roman ? <span className="deity__roman">{roman}</span> : null}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    </nav>
+  );
+};
+
+export default Navbar;
